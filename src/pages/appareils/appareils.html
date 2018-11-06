@@ -1,10 +1,15 @@
 <ion-header>
 
   <ion-navbar>
+      <ion-buttons start>
+          <button ion-button icon-only (click)="onToggleMenu()">
+            <ion-icon name="menu"></ion-icon>
+          </button>
+    </ion-buttons>
+    
     <ion-title>Appareils</ion-title>
   </ion-navbar>
 </ion-header>
-
 
 <ion-content padding>
   <p>Liste des appareils </p>
