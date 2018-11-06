@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+      <button ion-button icon-start (click)="dismissModal()">
+          <ion-icon name="close"></ion-icon>
+          Fermer
+      </button>
+    <ion-title>{{appareil.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>{{appareil.name}}</ion-card-header>
+    <ion-card-content>
+      <div *ngFor="let line of appareil.description">{{line}} <hr></div>
+    </ion-card-content>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button ion-button full color="danger" [disabled]="!appareil.isOn" (click)="onToggleAppareil()">Eteindre</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button full color="secondary" [disabled]="appareil.isOn" (click)="onToggleAppareil()">Allumer</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>
