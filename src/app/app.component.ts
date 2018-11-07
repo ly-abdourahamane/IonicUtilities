@@ -10,6 +10,8 @@ import { Autostart } from '@ionic-native/autostart';
 import { TabsPage } from '../pages/tabs/tabs';
 import { OptionsPage } from '../pages/options/options';
 
+import * as firebase from 'firebase';
+import { AuthPage } from '../pages/auth/auth';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,6 +23,9 @@ export class MyApp {
 
   tabsPage: any = TabsPage;
   optionsPage: any = OptionsPage;
+  authPage: any = AuthPage;
+
+  isAuth: boolean = false;
 
 
   pages: Array<{title: string, component: any}>;
@@ -49,12 +54,42 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      //FIREBASE CONFIGURATION
+      let config = {
+        apiKey: "AIzaSyD46-txGocvQoBQAG8130azE9_xrnTcdpg",
+        authDomain: "gestionappareils-ionic.firebaseapp.com",
+        databaseURL: "https://gestionappareils-ionic.firebaseio.com",
+        projectId: "gestionappareils-ionic",
+        storageBucket: "gestionappareils-ionic.appspot.com",
+        messagingSenderId: "1087183596579"
+      };
+      firebase.initializeApp(config);
+
+      firebase.auth().onAuthStateChanged(
+        (user) => {
+          if (user) {
+            this.isAuth = true;
+            this.content.setRoot(TabsPage);
+          } else {
+            this.isAuth = false;
+            this.content.setRoot(AuthPage, {mode: 'connect'});
+          }
+        });
+console.log(this.isAuth);
     });
   }
 
-  onNavigate(page: any) {
-    this.content.setRoot(page);
+  onDisconnect() {
+    firebase.auth().signOut();
     this.menuCtrl.close();
-    console.log('app component');
+    console.log('user disconnected');
+  }
+
+  onNavigate(page: any, data?: {}) {
+
+    this.content.setRoot(page, data ? data : null);
+    this.menuCtrl.close();
+    console.log('app component', data);
   }
 }
