@@ -49,7 +49,7 @@ export class AuthPage implements OnInit {
       password: ['', Validators.required]
     });
   }
-
+  
   onSubmitForm() {
     const email = this.authForm.get('email').value;
     const password = this.authForm.get('password').value;
